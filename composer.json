@@ -1,0 +1,22 @@
+{
+    "name": "administrador/modelagem",
+    "description": "Aprendizagem de Modelagem de Dados SENAI",
+    "require": {
+        "components/jquery": "^3.3"
+    },
+    "authors": [
+        {
+            "name": "Wanderlei Silva do Carmo",
+            "email": "wander.silva@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4" : {
+             "Model\\" : "./src/Model",
+             "Controller\\" : "./src/Controller",
+             "Persistence:\\" : "./src/Persistence"      
+        } 
+    } 
+
+
+}
