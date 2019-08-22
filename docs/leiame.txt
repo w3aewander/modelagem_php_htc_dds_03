@@ -1,0 +1,20 @@
+ ################# ATENÇÃO ###############################
+
+ - Comando para fazer o dump do banco de dados pelo mysql
+  ( os comandos devem ser executados no terminal 
+    do Linux/Mac ou no prompt de comando do MS Windows )
+ 
+  mysqldump -u root --databases HTC_DDS_03 -p > dump_db_htc_dds_03.sql
+ 
+  O comando acima fará um backup do banco com todos os seus objetos 
+  gravando todos os comandos SQL para re-gerar tabelas, views e outros
+  objetos da base de dados informada.
+
+  para restaurar o banco no destino apenas utilize o seguinte comando:
+
+   mysql -u root -p < dump_db_htc_dds_03.sql
+
+  Lembre-se de informar o caminho completo (path) do arquivo tanto no momento
+  do dump (backup) quanto no restore (copia dos dados) para o destino.
+
+ 
