@@ -23,10 +23,11 @@ if (isset($_POST['nome'])){
   
   
   $sql = " select * from VIEW_PROFESSOR_DISCIPLINA ";
-  $sql .= " where Professor = :nome ";
-
+  //$sql .= " where Professor like :nome ";   --busca exata
+  $sql .= " where Professor like :nome ";  //busca aproximada.
   $stm = $pdo->prepare($sql);
 
+  $nome = $nome."%";
 
   $stm->bindParam(":nome", $nome);
 
