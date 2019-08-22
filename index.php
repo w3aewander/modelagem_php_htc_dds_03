@@ -2,11 +2,86 @@
 /** 
  * 
  */
+
+ ini_set("display_errors",1);
+ error_reporting(E_ALL|E_WARNING);
+
 require   "./vendor/autoload.php";
+
 
 use \Model\Aluno;
 use \Model\Turma;
+use \Persistence\Connection as Con;
 
+$result = [];
+
+
+if (isset($_POST['nome'])){
+
+  $pdo = Con::connect();
+  $nome = $_POST['nome'];
+  
+  
+  $sql = " select * from VIEW_PROFESSOR_DISCIPLINA ";
+  $sql .= " where Professor = :nome ";
+
+  $stm = $pdo->prepare($sql);
+
+
+  $stm->bindParam(":nome", $nome);
+
+  $stm->execute();
+
+  $result = $stm->fetchAll();
+
+}
+
+  $table = "<h1 align='center'>Listagem de Professores e suas Disciplinas</h1>";
+
+  echo "
+        <div  style='margin:50px auto;width: 800px'> 
+        <form action='#' method='post'> 
+        <label style='font-size: 1.4em;'>Pesquisar professor:</label>
+        <input 
+               style='font-size: 1.5em' 
+               type='search' 
+               name='nome' 
+               id='nome' 
+               size='50'
+               placeholder='digite o nome para pesquisa'>
+        <hr>
+        <button type='submit'>Pesquisar</button>
+        </form>
+        </div>";
+  
+  $table .= "<table cellspacing='5' cellpadding='5' align='center' style='padding: 30px;width: 800px;' border='1' rules='all'>
+              <thead style='background-color: blue;color: white;'>
+                 <tr style='padding:4px;'>
+                    <th>Professor</th>
+                    <th>Disciplina</th>
+                 </tr>
+              </thead>
+              <tbody>";
+  
+  foreach( $result as $row){
+  
+       $table .= "<tr>
+                  <td>{$row["Professor"]}</td>
+                  <td>{$row["Disciplina"]}</td> 
+                  </tr>";
+  }
+  
+  $table .= "</tbody></table>";
+  
+  echo $table;
+  
+
+//$sql = "select * from VIEW_PROFESSOR_DISCIPLINA";
+//$result = $pdo->query($sql);
+
+
+
+/*
 $turma = new Turma();
 
 $turma->setId(2);
@@ -40,3 +115,4 @@ printf("<h2>Informações da turma</h1>
         $turma->getId(),
         $turma->getNome()
 );
+*/

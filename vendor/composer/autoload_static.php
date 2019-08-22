@@ -9,7 +9,7 @@ class ComposerStaticInitc188b1afe593d8e60458a4b27993d2de
     public static $prefixLengthsPsr4 = array (
         'P' => 
         array (
-            'Persistence:\\' => 13,
+            'Persistence\\' => 12,
         ),
         'M' => 
         array (
@@ -22,7 +22,7 @@ class ComposerStaticInitc188b1afe593d8e60458a4b27993d2de
     );
 
     public static $prefixDirsPsr4 = array (
-        'Persistence:\\' => 
+        'Persistence\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src/Persistence',
         ),
@@ -36,11 +36,20 @@ class ComposerStaticInitc188b1afe593d8e60458a4b27993d2de
         ),
     );
 
+    public static $classMap = array (
+        'Model\\Aluno' => __DIR__ . '/../..' . '/src/Model/Aluno.php',
+        'Model\\Disciplina' => __DIR__ . '/../..' . '/src/Model/Disciplina.php',
+        'Model\\Professor' => __DIR__ . '/../..' . '/src/Model/Professor.php',
+        'Model\\Turma' => __DIR__ . '/../..' . '/src/Model/Turma.php',
+        'Persistence\\Connection' => __DIR__ . '/../..' . '/src/Persistence/Connection.php',
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitc188b1afe593d8e60458a4b27993d2de::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitc188b1afe593d8e60458a4b27993d2de::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitc188b1afe593d8e60458a4b27993d2de::$classMap;
 
         }, null, ClassLoader::class);
     }
