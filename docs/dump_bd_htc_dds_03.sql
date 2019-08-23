@@ -208,7 +208,7 @@ USE `HTC_DDS_03`;
 /*!50001 SET character_set_results     = utf8 */;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`admin`@`localhost` SQL SECURITY DEFINER */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `VIEW_PROFESSOR_DISCIPLINA` AS select `p`.`id` AS `ProfessorID`,`p`.`nome` AS `Professor`,`d`.`nome` AS `Disciplina` from ((`PROFESSOR` `p` join `PROFESSOR_DISCIPLINA` `pd` on((`p`.`id` = `pd`.`professor_id`))) join `DISCIPLINA` `d` on((`d`.`id` = `pd`.`disciplina_id`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
