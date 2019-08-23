@@ -15,7 +15,6 @@ use \Persistence\Connection as Con;
 
 $result = [];
 
-
 if (isset($_POST['nome'])){
 
   $pdo = Con::connect();
@@ -37,7 +36,13 @@ if (isset($_POST['nome'])){
 
 }
 
-  $table = "<h1 align='center'>Listagem de Professores e suas Disciplinas</h1>";
+  $table = '<h1 align="center">Listagem de Professores e suas Disciplinas</h1>';
+  $table .= '<div style="padding: 8px;display: block;margin:0 auto;text-align: center;">';
+  $table .= '<a style="padding: 2px;margin:2px;"  href="turma.php">Cadastro de Turma</a> |';
+  $table .= '<a style="padding: 2px;margin:2px;"  href="disciplina.php">Cadastro de Disciplina</a> |';
+  $table .= '<a style="padding: 2px;margin:2px;"  href="professor.php">Cadastro de Professor</a> |';
+  $table .= '<a style="padding: 2px;margin:2px;"  href="aluno.php">Cadastro de Aluno </a>';
+  $table .= '</div>';
 
   echo "
         <div  style='margin:50px auto;width: 800px'> 
