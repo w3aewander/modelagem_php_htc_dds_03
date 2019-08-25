@@ -144,7 +144,7 @@
 
     <div style="margin: 0 auto; width:80%">
         <header>
-            <h2>Cadastro de Turmas</h2>
+            <h2 style="padding: 4px;margin:0 auto;background-color: lightblue; text-align:center;">Cadastro de Turmas</h2>
             <p>
                 <form name="form_turma" id="form_turma" method="post" action="turma.php">
                     <label for="id">ID</label>
@@ -161,8 +161,27 @@
             
              <h4><?php echo !empty( $_REQUEST['mensagem']) ? $_REQUEST['mensagem']: null;?></h4>
 
+             <?php
+               
+               $registros_por_pagina  = 10;
+               $pagina = $_REQUEST['pagina'] ?? 1;
+               $offset = ($pagina -1 ) * 10 ;
+
+               $turmas = CON::connect()->query("select * from TURMA limit $offset, $registros_por_pagina");
+               $paginas = ceil ($turmas->rowCount() / $registros_por_pagina) ?? 1;
+
+                echo "<div style='margin: 0 auto;padding: 10px;'>Página: ";
+                for($i=1;$i <= $paginas +1;++$i):
+                      echo "<a style='margin: 4px;padding:3px 12px;  border:2px outset lightgray;' href='?pagina={$i}'><strong>$i</strong></a>";
+                endfor;
+                echo "</div>";
+
+
+               ?>
+
+
             <table width="100%" border="1" cellpadding="5" cellspacing="4" rules="both">
-                <caption>#Qtde:registros</caption>
+                <caption>.:: Listagem de Turmas ::..</caption>
 
                 <thead>
                     <tr>
@@ -173,10 +192,6 @@
                 </thead>
                 <tbody>
 
-              <?php
-                 $turmas = CON::connect()->query("select * from TURMA ");
-              
-               ?>
                     <?php foreach( $turmas as $turma ): ?>
                     <tr>
                         <td><?=$turma['id']?></td>
@@ -186,12 +201,24 @@
                         </td>
                     </tr>
                     <?php endforeach; ?>
+                    <!-- Para completar as linhas restantes para compor o layout fixo em 10 registros-->
+                    <?php 
+                    if ( $turmas->rowCount() < $registros_por_pagina):
+                        for( $i=0; $i < ( $registros_por_pagina - $turmas->rowCount() ); $i++):
+                          echo '<tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                          </tr>';
+                        endfor;  
+                    endif; ?> 
+                    
 
                 </tbody>
 
                 <tfoot>
                     <tr>
-                        <th colspan="3">&nbsp;</th>
+                        <th align="left" colspan="3">Total páginas: <?=$paginas ?> | #Registros: <?=$turmas->rowCount()?></th>
                     </tr>
                 </tfoot>
 
