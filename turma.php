@@ -128,6 +128,16 @@
         background-color: lightblue;
     }
     </style>
+
+    <script>
+         const limparForm = function(){
+             
+             document.getElementById('id').value = "0";
+             document.getElementById('nome').value = "";
+
+             location.href= "turma.php";
+         }
+    </script>
 </head>
 
 <body>
@@ -136,13 +146,13 @@
         <header>
             <h2>Cadastro de Turmas</h2>
             <p>
-                <form method="post" action="turma.php">
+                <form name="form_turma" id="form_turma" method="post" action="turma.php">
                     <label for="id">ID</label>
                     <input type="number" id="id"  value="<?=$_REQUEST['id']??'0'?>"  name="id" value="0" readonly="readonly">
                     <br>
                     <label for="nome">Nome</label>
                     <input type="text" name="nome" id="nome" value="<?=$_REQUEST['nome']??''?>" size="50" maxlength="50" required="required">
-                    <button type="reset">Novo</button>
+                    <button type="reset" onclick="limparForm();">Novo</button>
                     <button type="submit" name="action" value="salvar">Salvar</button>
                 </form>
             </p>
