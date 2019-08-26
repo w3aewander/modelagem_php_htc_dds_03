@@ -221,7 +221,7 @@
 
                 <tfoot>
                     <tr>
-                        <th align="left" colspan="3">Total página: <?=$pagina?> | de | <?=$paginas?> #Registros: <?=$turmas->rowCount()?></th>
+                        <th align="left" colspan="3">Total página: <?=$pagina?>/<?=$paginas?> #Registros: <?=$turmas->rowCount()?> de <?=$total_registros?></th>
                     </tr>
                 </tfoot>
 
