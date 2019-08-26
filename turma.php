@@ -166,12 +166,15 @@
                $registros_por_pagina  = 10;
                $pagina = $_REQUEST['pagina'] ?? 1;
                $offset = ($pagina -1 ) * 10 ;
+               
+               $res = CON::connect()->query("select count(*) total_registros from TURMA");
+               $total_registros = $res->fetch()['total_registros'];
 
                $turmas = CON::connect()->query("select * from TURMA limit $offset, $registros_por_pagina");
-               $paginas = ceil ($turmas->rowCount() / $registros_por_pagina) ?? 1;
+               $paginas = ceil ($total_registros / $registros_por_pagina) ?? 1;
 
                 echo "<div style='margin: 0 auto;padding: 10px;'>Página: ";
-                for($i=1;$i <= $paginas +1;++$i):
+                for($i=1;$i <= $paginas;++$i):
                       echo "<a style='margin: 4px;padding:3px 12px;  border:2px outset lightgray;' href='?pagina={$i}'><strong>$i</strong></a>";
                 endfor;
                 echo "</div>";
@@ -218,7 +221,7 @@
 
                 <tfoot>
                     <tr>
-                        <th align="left" colspan="3">Total páginas: <?=$paginas ?> | #Registros: <?=$turmas->rowCount()?></th>
+                        <th align="left" colspan="3">Total página: <?=$pagina?> | de | <?=$paginas?> #Registros: <?=$turmas->rowCount()?></th>
                     </tr>
                 </tfoot>
 
