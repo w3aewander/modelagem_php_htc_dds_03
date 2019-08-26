@@ -56,7 +56,7 @@
         //die("ID: " . $turma->getId());
         if ( pesquisar( $turma->getId() ) ):
 
-        $sql = "update TURMA set nome = :nome where id = :id " ;
+        $sql = "update TURMA set nome = :nome where id = :id" ;
         $stm = CON::connect()->prepare($sql);
         $stm->bindValue(':id', $turma->getId(), \PDO::PARAM_INT);
         $stm->bindValue(':nome', $turma->getNome(), \PDO::PARAM_STR);
@@ -127,6 +127,12 @@
     tfoot>tr {
         background-color: lightblue;
     }
+    .btn-voltar{
+        display: inline-block;
+        width: 60px;
+        padding: 8px 8px;
+        border: 1px outset gray;
+    }
     </style>
 
     <script>
@@ -145,10 +151,13 @@
     <div style="margin: 0 auto; width:80%">
         <header>
             <h2 style="padding: 4px;margin:0 auto;background-color: lightblue; text-align:center;">Cadastro de Turmas</h2>
+            <p align="center">
+                <a class="btn-voltar" href="index.php">Voltar</a>
+            </p>
             <p>
                 <form name="form_turma" id="form_turma" method="post" action="turma.php">
                     <label for="id">ID</label>
-                    <input type="number" id="id"  value="<?=$_REQUEST['id']??'0'?>"  name="id" value="0" readonly="readonly">
+                    <input type="number" id="id" value="<?=$_REQUEST['id'] ?? '0' ?>" name="id" value="0" readonly="readonly" />
                     <br>
                     <label for="nome">Nome</label>
                     <input type="text" name="nome" id="nome" value="<?=$_REQUEST['nome']??''?>" size="50" maxlength="50" required="required">
@@ -159,13 +168,13 @@
         </header>
         <article>
             
-             <h4><?php echo !empty( $_REQUEST['mensagem']) ? $_REQUEST['mensagem']: null;?></h4>
+             <h4><?=!empty( $_REQUEST['mensagem']) ?? null?></h4>
 
              <?php
                
                $registros_por_pagina  = 10;
                $pagina = $_REQUEST['pagina'] ?? 1;
-               $offset = ($pagina -1 ) * 10 ;
+               $offset = ($pagina -1 ) *  $registros_por_pagina  ;
                
                $res = CON::connect()->query("select count(*) total_registros from TURMA");
                $total_registros = $res->fetch()['total_registros'];
