@@ -3,7 +3,7 @@
    ini_set('display_errors', 1);
    error_reporting(E_ALL|E_WARNING);
 
-   require __DIR__ . "/vendor/autoload.php";
+   require __DIR__ . "/../vendor/autoload.php";
    
    use \Persistence\Connection as CON;
 
@@ -17,12 +17,11 @@
         
         case 'salvar':
           
-          $aluno = new \Model\Aluno();
-          $aluno->setId($_POST['id']);
-          $aluno->setNome(strtoupper($_POST['nome']));
-          $aluno->setTurmaId($_POST['turma_id']);
+          $disciplina = new \Model\Disciplina();
+          $disciplina->setId($_POST['id']);
+          $disciplina->setNome(strtoupper($_POST['nome']));
           
-          salvar($aluno);
+          salvar($disciplina);
 
         break;
 
@@ -39,7 +38,7 @@
     $ret = null;
 
     //pesquisa o registro no banco
-    $sql = "select * from aluno where id = :id ";
+    $sql = "select * from DISCIPLINA where id = :id ";
     $stm = CON::connect()->prepare($sql);
     $stm->bindParam(':id', $id );
     $stm->execute();
@@ -50,29 +49,26 @@
 
    }
 
-   function salvar(\Model\aluno $aluno){
+   function salvar(\Model\Disciplina $disciplina){
 
         $stm = null;
 
-        //die("ID: " . $aluno->getId());
-        if ( pesquisar( $aluno->getId() ) ):
+        //die("ID: " . $Disciplina->getId());
+        if ( pesquisar( $disciplina->getId() ) ):
 
-        $sql = "update ALUNOS set nome = :nome, turma_id = :turma_id where id = :id"  ;
+        $sql = "update DISCIPLINA set nome = :nome where id = :id" ;
         $stm = CON::connect()->prepare($sql);
-        $stm->bindValue(':id', $aluno->getId(), \PDO::PARAM_INT);
-        $stm->bindValue(':nome', $aluno->getNome(), \PDO::PARAM_STR);
-        $stm->bindValue(':turma_id', $aluno->getTurmaId(), \PDO::PARAM_STR);
+        $stm->bindValue(':id', $disciplina->getId(), \PDO::PARAM_INT);
+        $stm->bindValue(':nome', $disciplina->getNome(), \PDO::PARAM_STR);
 
         $stm->execute();   
         
        else:
 
-        //die(var_dump($aluno->getNome()));        //se não existir insira
-        $sql = "insert into ALUNOS( nome,turma_id ) values ( :nome,:turma_id )";
+        //die(var_dump($Disciplina->getNome()));        //se não existir insira
+        $sql = "insert into DISCIPLINA( nome ) values ( :nome )";
         $stm = CON::connect()->prepare($sql);
-
-        $stm->bindValue(':nome', $aluno->getNome());
-        $stm->bindValue(':turma_id', $aluno->getTurmaId()) ;
+        $stm->bindValue(':nome', $disciplina->getNome());
 
         $stm->execute();
         
@@ -83,18 +79,12 @@
 
    function excluir(int $id){
 
-    $sql = 'delete from ALUNOS where id = :id';
+    $sql = 'delete from DISCIPLINA where id = :id';
     $stm = CON::connect()->prepare($sql);
     $stm->bindValue(':id', $id, \PDO::PARAM_INT );
 
     $stm->execute();
 
-   }
-
-   function turmas(){
-    $sql = 'select * from TURMA';
-    $res = CON::connect()->query($sql);
-    return $res->fetchAll();
    }
 
 ?>
@@ -106,7 +96,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Cadastro de aluno</title>
+    <title>Cadastro de Disciplina</title>
 
     <style>
     label {
@@ -151,7 +141,7 @@
              document.getElementById('id').value = "0";
              document.getElementById('nome').value = "";
 
-             location.href= "alunos.php";
+             location.href= "disciplina.php";
          }
     </script>
 </head>
@@ -160,30 +150,17 @@
 
     <div style="margin: 0 auto; width:80%">
         <header>
-            <h2 style="padding: 4px;margin:0 auto;background-color: lightblue; text-align:center;">Cadastro de alunos</h2>
+            <h2 style="padding: 4px;margin:0 auto;background-color: lightblue; text-align:center;">Cadastro de Disciplinas</h2>
             <p align="center">
                 <a class="btn-voltar" href="index.php">Voltar</a>
             </p>
             <p>
-                <form name="form_aluno" id="form_aluno" method="post" action="alunos.php">
+                <form name="form_disciplina" id="form_disciplina" method="post" action="disciplina.php">
                     <label for="id">ID</label>
                     <input type="number" id="id" value="<?=$_REQUEST['id']??'0'?>" name="id" value="0" readonly="readonly" />
                     <br>
                     <label for="nome">Nome</label>
                     <input type="text" name="nome" id="nome" value="<?=$_REQUEST['nome']??''?>" size="50" maxlength="50" required="required">
-                    <br>
-                    <label for="turma_id">Turma</label>
-                    <select id="turma_id" name="turma_id">
-                         <option selected value="">Selecione uma turma</option>
-                         
-                         <?php foreach( turmas() as $turma): ?>
-                              <option value="<?=$turma['id']?>">
-                                  <?=$turma['nome'];?>
-                             </option>
-                         <?php endforeach; ?>
-
-                    </select>
-
                     <button type="reset" onclick="limparForm();">Novo</button>
                     <button type="submit" name="action" value="salvar">Salvar</button>
                 </form>
@@ -199,10 +176,10 @@
                $pagina = $_REQUEST['pagina'] ?? 1;
                $offset = ($pagina -1 ) *  $registros_por_pagina  ;
                
-               $res = CON::connect()->query("select count(*) total_registros from ALUNOS");
+               $res = CON::connect()->query("select count(*) total_registros from DISCIPLINA");
                $total_registros = $res->fetch()['total_registros'];
 
-               $alunos = CON::connect()->query("select * from ALUNOS limit $offset, $registros_por_pagina");
+               $disciplinas = CON::connect()->query("select * from DISCIPLINA limit $offset, $registros_por_pagina");
                $paginas = ceil ($total_registros / $registros_por_pagina) ?? 1;
 
                 echo "<div style='margin: 0 auto;padding: 10px;'>Página: ";
@@ -216,35 +193,31 @@
 
 
             <table width="100%" border="1" cellpadding="5" cellspacing="4" rules="both">
-                <caption>.:: Listagem de alunos ::..</caption>
+                <caption>.:: Listagem de Disciplinas ::..</caption>
 
                 <thead>
                     <tr>
                         <th width="30">ID</th>
                         <th>Nome</th>
-                        <th>Turma</th>
                         <th width="120">Opções</th> 
                     </tr>
                 </thead>
                 <tbody>
 
-                    <?php foreach( $alunos as $aluno ): ?>
+                    <?php foreach( $disciplinas as $disciplina ): ?>
                     <tr>
-                        <td><?=$aluno['id']?></td>
-                        <td><?=utf8_encode($aluno['nome'])?></td>
-                        <td><?=\Persistence\AlunoDAO::getTurma($aluno['id'])['turma_nome']?></td>
+                        <td><?=$disciplina['id']?></td>
+                        <td><?=utf8_encode($disciplina['nome'])?></td>
                         <td>
-                        <a href="?action=editar&id=<?=$aluno['id']?>&nome=<?=$aluno['nome']?>">Editar</a>| <a href="?action=excluir&id=<?=$aluno['id']?>">Excluir</a>
+                        <a href="?action=editar&id=<?=$disciplina['id']?>&nome=<?=$disciplina['nome']?>">Editar</a>| <a href="?action=excluir&id=<?=$disciplina['id']?>">Excluir</a>
                         </td>
                     </tr>
                     <?php endforeach; ?>
                     <!-- Para completar as linhas restantes para compor o layout fixo em 10 registros-->
                     <?php 
-                    if ( $alunos->rowCount() < $registros_por_pagina):
-                        for( $i=0; $i < ( $registros_por_pagina - $alunos->rowCount() ); $i++):
+                    if ( $disciplinas->rowCount() < $registros_por_pagina):
+                        for( $i=0; $i < ( $registros_por_pagina - $disciplinas->rowCount() ); $i++):
                           echo '<tr>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
@@ -257,7 +230,7 @@
 
                 <tfoot>
                     <tr>
-                        <th align="left" colspan="3">Total página: <?=$pagina?>/<?=$paginas?> #Registros: <?=$alunos->rowCount()?> de <?=$total_registros?></th>
+                        <th align="left" colspan="3">Total página: <?=$pagina?>/<?=$paginas?> #Registros: <?=$disciplinas->rowCount()?> de <?=$total_registros?></th>
                     </tr>
                 </tfoot>
 

@@ -14,7 +14,8 @@
         "psr-4" : {
              "Model\\" : "./src/Model",
              "Controller\\" : "./src/Controller",
-             "Persistence\\" : "./src/Persistence"      
+             "Persistence\\" : "./src/Persistence",
+             "Utils\\" : "./src/Utils"      
         } 
     } 
 
