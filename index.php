@@ -41,7 +41,7 @@ if (isset($_POST['nome'])){
   $table .= '<a style="padding: 2px;margin:2px;"  href="turma.php">Cadastro de Turma</a> |';
   $table .= '<a style="padding: 2px;margin:2px;"  href="disciplina.php">Cadastro de Disciplina</a> |';
   $table .= '<a style="padding: 2px;margin:2px;"  href="professor.php">Cadastro de Professor</a> |';
-  $table .= '<a style="padding: 2px;margin:2px;"  href="aluno.php">Cadastro de Aluno </a>';
+  $table .= '<a style="padding: 2px;margin:2px;"  href="alunos.php">Cadastro de Aluno </a>';
   $table .= '</div>';
 
   echo "
