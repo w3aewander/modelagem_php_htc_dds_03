@@ -21,7 +21,7 @@ class GenerateTable
  {
 
   $html = "<table cellpadding='2' cellspacing='2' border='{$border}' rules='{$rules}' class='{$css}'>";
-  $html .= "<caption classs='caption'>Listagem da Tabela {$table}</caption>";
+  $html .= "<caption class='caption'>Listagem da Tabela {$table}</caption>";
   $html .= self::mountTableHeader($table);
   $html .= self::mountTableBody($table);
   $html .= self::mountTableFooter($table);
