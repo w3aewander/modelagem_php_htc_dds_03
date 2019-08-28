@@ -59,7 +59,8 @@ class GenerateTable
   foreach ($headers as $header):
    $thead .= "<th class='{$thclass}'>{$header->Field}</th>";
   endforeach;
-  $thead .= "<th width='120' class='{$thclass}'>Opções</th>";
+
+  $thead .= "<th width='180' class='{$thclass}'>Opções</th>";
   $thead .= "</tr></thead>";
 
   return $thead;
@@ -114,7 +115,7 @@ class GenerateTable
     $tbody .= "<td class='{$tdclass}'>{$row[$i]}</td>";
    endfor;
 
-   $tbody .= "<td>
+   $tbody .= "<td class='{$tdclass} text-center' >
                <a class='link' href='?action=editar&id={$row["0"]}'>Editar</a>
                <a class='link' href='?action=excluir&id={$row["0"]}'>Excluir</a>
              </td>";

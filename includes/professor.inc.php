@@ -39,7 +39,7 @@ endswitch;
         <br>
         <label for="id">Nome</label>
         <input type="text" id="nome" name="nome" value="<?=$nome ?? '' ?>" size="50" maxlength="50" required="required">
-        <button type="reset" name="action" value="listar">Nome</button>
+        <button type="reset" name="action" value="listar">Novo</button>
         <button type="submit" name="action" value="salvar">Salvar</button>
     </form>
    
